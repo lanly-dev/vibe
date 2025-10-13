@@ -90,10 +90,76 @@ function deepClone(obj) {
   }
 }
 
+/**
+ * Shuffles an array randomly using Fisher-Yates algorithm
+ * @param {Array} array - The array to shuffle
+ * @returns {Array} A new shuffled array
+ */
+function shuffle(array) {
+  if (!Array.isArray(array)) {
+    throw new TypeError('Input must be an array');
+  }
+  
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+/**
+ * Picks a random element from an array
+ * @param {Array} array - The array to pick from
+ * @returns {*} A random element from the array
+ */
+function randomChoice(array) {
+  if (!Array.isArray(array)) {
+    throw new TypeError('Input must be an array');
+  }
+  if (array.length === 0) {
+    return undefined;
+  }
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+/**
+ * Reverses a string
+ * @param {string} str - The string to reverse
+ * @returns {string} The reversed string
+ */
+function reverseString(str) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Input must be a string');
+  }
+  return str.split('').reverse().join('');
+}
+
+/**
+ * Counts the occurrences of each character in a string
+ * @param {string} str - The string to analyze
+ * @returns {Object} An object with characters as keys and counts as values
+ */
+function charFrequency(str) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Input must be a string');
+  }
+  
+  const frequency = {};
+  for (const char of str) {
+    frequency[char] = (frequency[char] || 0) + 1;
+  }
+  return frequency;
+}
+
 module.exports = {
   capitalize,
   randomInt,
   isPalindrome,
   debounce,
-  deepClone
+  deepClone,
+  shuffle,
+  randomChoice,
+  reverseString,
+  charFrequency
 };
