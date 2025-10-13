@@ -2,7 +2,7 @@
  * Example usage of the Vibe utility functions
  */
 
-const { capitalize, randomInt, isPalindrome, debounce, deepClone } = require('../index');
+const { capitalize, randomInt, isPalindrome, debounce, deepClone, shuffle, randomChoice, reverseString, charFrequency } = require('../index');
 
 // Example 1: Capitalize strings
 console.log('=== Capitalize Examples ===');
@@ -57,3 +57,29 @@ console.log('Original stats.stars:', original.stats.stars); // 100
 console.log('Cloned stats.stars:', cloned.stats.stars); // 200
 console.log('Original tags:', original.tags); // ['nodejs', 'copilot', 'demo']
 console.log('Cloned tags:', cloned.tags); // ['nodejs', 'copilot', 'demo', 'utility']
+
+// Example 6: Shuffle arrays
+console.log('\n=== Shuffle Example ===');
+const cards = ['♠A', '♥K', '♦Q', '♣J', '♠10'];
+console.log('Original:', cards);
+console.log('Shuffled:', shuffle(cards));
+console.log('Original unchanged:', cards);
+
+// Example 7: Random choice from array
+console.log('\n=== Random Choice Example ===');
+const fruits = ['🍎 Apple', '🍌 Banana', '🍊 Orange', '🍇 Grapes', '🍓 Strawberry'];
+console.log('Random fruit:', randomChoice(fruits));
+console.log('Another random fruit:', randomChoice(fruits));
+
+// Example 8: Reverse strings
+console.log('\n=== Reverse String Example ===');
+console.log('Original: "hello"');
+console.log('Reversed:', reverseString('hello'));
+console.log('Original: "GitHub Copilot"');
+console.log('Reversed:', reverseString('GitHub Copilot'));
+
+// Example 9: Character frequency
+console.log('\n=== Character Frequency Example ===');
+const text = 'hello world';
+console.log('Text:', text);
+console.log('Character frequency:', charFrequency(text));
