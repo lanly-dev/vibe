@@ -87,6 +87,10 @@ Then open your browser to `http://localhost:3000` and enjoy:
 - 🌧️ Emoji Rain animation
 - 📊 Text Analyzer with word count, character frequency, and more!
 
+### Hosted Version 🌐
+
+Check out the live version of this project: [Vibe on Render](https://vibe-pasm.onrender.com)
+
 ## Testing
 
 Run the test suite:
