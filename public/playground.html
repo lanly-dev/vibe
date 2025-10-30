@@ -259,7 +259,13 @@
             
             const capitalized = capitalize(input);
             result.className = 'result success';
-            result.innerHTML = `<strong>Result:</strong> ${capitalized}`;
+            // Use textContent to prevent XSS
+            const strong = document.createElement('strong');
+            strong.textContent = 'Result: ';
+            const text = document.createTextNode(capitalized);
+            result.innerHTML = '';
+            result.appendChild(strong);
+            result.appendChild(text);
         }
 
         function generateLuckyNumber() {
@@ -323,10 +329,17 @@
             const isPalin = isPalindrome(input);
             result.className = 'result success';
             
+            // Use textContent to prevent XSS
+            const strong = document.createElement('strong');
+            result.innerHTML = '';
             if (isPalin) {
-                result.innerHTML = `<strong>Yes! 🎉</strong> "${input}" is a palindrome!`;
+                strong.textContent = 'Yes! 🎉 ';
+                result.appendChild(strong);
+                result.appendChild(document.createTextNode(`"${input}" is a palindrome!`));
             } else {
-                result.innerHTML = `<strong>Nope! 🤔</strong> "${input}" is not a palindrome.`;
+                strong.textContent = 'Nope! 🤔 ';
+                result.appendChild(strong);
+                result.appendChild(document.createTextNode(`"${input}" is not a palindrome.`));
             }
         }
 
