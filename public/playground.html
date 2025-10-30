@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe - GitHub Repository Classifier 🎵</title>
+    <title>Vibe - Interactive Playground 🎵</title>
     <style>
         * {
             box-sizing: border-box;
@@ -157,127 +157,15 @@
             font-size: 1.5rem;
             font-weight: bold;
         }
-        .landing-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            animation: fadeIn 1.5s ease-in;
-        }
-        .feature-card {
-            text-align: center;
-        }
-        .features {
-            margin: 30px 0;
-            text-align: left;
-        }
-        .feature-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            font-size: 1.05rem;
-        }
-        .feature-icon {
-            font-size: 1.8rem;
-            margin-right: 15px;
-            min-width: 40px;
-        }
-        .login-btn {
-            background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
-            font-size: 1.1rem;
-            padding: 15px 40px;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-btn:hover {
-            background: linear-gradient(135deg, #2f363d 0%, #24292e 100%);
-        }
-        .secondary-btn {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin-top: 15px;
-        }
-        .secondary-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-        .demo-card {
-            text-align: center;
-        }
-        .error-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(245, 101, 101, 0.3);
-            border: 2px solid rgba(245, 101, 101, 0.5);
-            border-radius: 8px;
-            display: none;
-        }
-        .error-message.show {
-            display: block;
-        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🎵 Vibe - GitHub Repository Classifier</h1>
-        <p class="subtitle">Organize your starred repositories with AI-powered classification</p>
+        <h1>🎵 Vibe Interactive Playground 🎮</h1>
+        <p class="subtitle">Have fun with utility functions!</p>
     </div>
 
-    <div class="landing-content">
-        <div class="card feature-card">
-            <h2>🌟 Welcome to Vibe</h2>
-            <p>Vibe helps you organize and discover patterns in your GitHub starred repositories. Sign in with GitHub to get started!</p>
-            
-            <div class="features">
-                <div class="feature-item">
-                    <span class="feature-icon">🔐</span>
-                    <span class="feature-text">Secure GitHub OAuth Authentication</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">📊</span>
-                    <span class="feature-text">Automatic Classification by Topics & Languages</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🎯</span>
-                    <span class="feature-text">Smart Grouping by Keywords</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">📤</span>
-                    <span class="feature-text">Export Data as JSON or CSV</span>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">✨</span>
-                    <span class="feature-text">Beautiful Interactive Dashboard</span>
-                </div>
-            </div>
-
-            <button onclick="login()" class="login-btn">
-                <svg height="24" width="24" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 8px;">
-                    <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-                Sign in with GitHub
-            </button>
-
-            <div id="error-message" class="error-message"></div>
-        </div>
-
-        <div class="card demo-card">
-            <h2>🎮 Try the Playground</h2>
-            <p>Want to see the original utility functions in action?</p>
-            <a href="/playground.html" class="secondary-btn">Visit Playground</a>
-        </div>
-    </div>
-
-    <div class="playground" style="display: none;">
+    <div class="playground">
         <!-- Capitalize Card -->
         <div class="card">
             <h2>✨ Text Capitalizer</h2>
@@ -517,40 +405,13 @@
             `;
         }
 
-        // Login functionality
-        function login() {
-            window.location.href = '/auth/github';
-        }
-
-        // Check for errors in URL
+        // Initialize with a welcome message
         window.addEventListener('load', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
-            
-            if (error) {
-                const errorMessage = document.getElementById('error-message');
-                let message = 'An error occurred during authentication.';
-                
-                if (error === 'no_code') {
-                    message = 'No authorization code received from GitHub.';
-                } else if (error === 'no_token') {
-                    message = 'Failed to obtain access token from GitHub.';
-                } else if (error === 'auth_failed') {
-                    message = 'Authentication failed. Please try again.';
-                }
-                
-                errorMessage.textContent = message;
-                errorMessage.classList.add('show');
-            }
-
-            // Initialize playground if elements exist
-            if (document.getElementById('capitalizeResult')) {
-                document.getElementById('capitalizeResult').innerHTML = '👋 Try capitalizing some text!';
-                document.getElementById('randomResult').innerHTML = '🎲 Generate your lucky number!';
-                document.getElementById('palindromeResult').innerHTML = '🔍 Check if a phrase is a palindrome!';
-                document.getElementById('jokeResult').innerHTML = '😄 Click for a programming joke!';
-                document.getElementById('analyzeResult').innerHTML = '📊 Analyze your text here!';
-            }
+            document.getElementById('capitalizeResult').innerHTML = '👋 Try capitalizing some text!';
+            document.getElementById('randomResult').innerHTML = '🎲 Generate your lucky number!';
+            document.getElementById('palindromeResult').innerHTML = '🔍 Check if a phrase is a palindrome!';
+            document.getElementById('jokeResult').innerHTML = '😄 Click for a programming joke!';
+            document.getElementById('analyzeResult').innerHTML = '📊 Analyze your text here!';
         });
     </script>
 </body>

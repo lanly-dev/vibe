@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe - Repository Dashboard 🎵</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        .btn-export {
+            background: #48bb78;
+            color: white;
+            margin-left: 10px;
+        }
+        .btn-export:hover {
+            background: #38a169;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .tabs {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        .tab-btn:hover {
+            background: #f5f5f5;
+        }
+        .tab-content {
+            padding: 25px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .group-section {
+            margin-bottom: 25px;
+        }
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .group-header:hover {
+            background: #e9ecef;
+        }
+        .group-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .group-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .repo-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        .repo-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .repo-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+        .repo-name a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .repo-name a:hover {
+            text-decoration: underline;
+        }
+        .repo-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .repo-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 10px;
+        }
+        .repo-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .repo-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .topic-tag {
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #495057;
+        }
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 1.2rem;
+            color: white;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            background: #f56565;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .collapsible-content.open {
+            max-height: 10000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-brand">🎵 Vibe Dashboard</div>
+        <div class="navbar-user">
+            <img id="userAvatar" class="user-avatar" src="" alt="User Avatar">
+            <span id="userName">Loading...</span>
+            <button class="btn btn-export" onclick="exportData('json')">Export JSON</button>
+            <button class="btn btn-export" onclick="exportData('csv')">Export CSV</button>
+            <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <p>Loading your starred repositories...</p>
+        </div>
+
+        <div id="errorState" class="error" style="display: none;"></div>
+
+        <div id="dashboard" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Repositories</div>
+                    <div class="stat-value" id="totalRepos">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Topics</div>
+                    <div class="stat-value" id="totalTopics">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Languages</div>
+                    <div class="stat-value" id="totalLanguages">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Keywords</div>
+                    <div class="stat-value" id="totalKeywords">0</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('topics')">By Topics</button>
+                    <button class="tab-btn" onclick="switchTab('languages')">By Languages</button>
+                    <button class="tab-btn" onclick="switchTab('keywords')">By Keywords</button>
+                    <button class="tab-btn" onclick="switchTab('all')">All Repositories</button>
+                </div>
+
+                <div id="topicsTab" class="tab-content active"></div>
+                <div id="languagesTab" class="tab-content"></div>
+                <div id="keywordsTab" class="tab-content"></div>
+                <div id="allTab" class="tab-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let classifiedData = null;
+        let allRepositories = [];
+
+        // Load user info and repositories
+        async function loadDashboard() {
+            try {
+                // Get user status
+                const statusResponse = await fetch('/auth/status');
+                const status = await statusResponse.json();
+
+                if (!status.authenticated) {
+                    window.location.href = '/';
+                    return;
+                }
+
+                document.getElementById('userName').textContent = status.user.name || status.user.login;
+                document.getElementById('userAvatar').src = status.user.avatarUrl;
+
+                // Get classified repositories
+                const classifiedResponse = await fetch('/api/starred/classified');
+                classifiedData = await classifiedResponse.json();
+
+                // Get all repositories for the "All" tab
+                const allResponse = await fetch('/api/starred');
+                const allData = await allResponse.json();
+                allRepositories = allData.repositories;
+
+                // Update stats
+                document.getElementById('totalRepos').textContent = classifiedData.total;
+                document.getElementById('totalTopics').textContent = classifiedData.byTopic.length;
+                document.getElementById('totalLanguages').textContent = classifiedData.byLanguage.length;
+                document.getElementById('totalKeywords').textContent = classifiedData.byDescription.length;
+
+                // Render tabs
+                renderTopicsTab();
+                renderLanguagesTab();
+                renderKeywordsTab();
+                renderAllTab();
+
+                // Hide loading, show dashboard
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').textContent = 'Failed to load repositories. Please try again.';
+                document.getElementById('errorState').style.display = 'block';
+            }
+        }
+
+        function renderTopicsTab() {
+            const container = document.getElementById('topicsTab');
+            if (classifiedData.byTopic.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📂</div><p>No topics found in your starred repositories</p></div>';
+                return;
+            }
+
+            container.innerHTML = classifiedData.byTopic.map(group => 
+                renderGroup(group.topic, group.count, group.repositories)
+            ).join('');
+        }
+
+        function renderLanguagesTab() {
+            const container = document.getElementById('languagesTab');
+            if (classifiedData.byLanguage.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💻</div><p>No languages found in your starred repositories</p></div>';
+                return;
+            }
+
+            container.innerHTML = classifiedData.byLanguage.map(group => 
+                renderGroup(group.language, group.count, group.repositories)
+            ).join('');
+        }
+
+        function renderKeywordsTab() {
+            const container = document.getElementById('keywordsTab');
+            if (classifiedData.byDescription.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No keywords found in repository descriptions</p></div>';
+                return;
+            }
+
+            container.innerHTML = classifiedData.byDescription.map(group => 
+                renderGroup(group.keyword, group.count, group.repositories)
+            ).join('');
+        }
+
+        function renderAllTab() {
+            const container = document.getElementById('allTab');
+            if (allRepositories.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⭐</div><p>No starred repositories found</p></div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="group-section">
+                    <div class="repo-grid">
+                        ${allRepositories.map(repo => renderRepoCard(repo)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderGroup(title, count, repositories) {
+            const groupId = 'group-' + title.replace(/[^a-z0-9]/gi, '-');
+            return `
+                <div class="group-section">
+                    <div class="group-header" onclick="toggleGroup('${groupId}')">
+                        <div class="group-title">${title}</div>
+                        <div class="group-count">${count}</div>
+                    </div>
+                    <div id="${groupId}" class="collapsible-content open">
+                        <div class="repo-grid">
+                            ${repositories.map(repo => renderRepoCard(repo)).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRepoCard(repo) {
+            return `
+                <div class="repo-card">
+                    <div class="repo-name">
+                        <a href="${repo.url}" target="_blank">${repo.fullName}</a>
+                    </div>
+                    <div class="repo-description">${repo.description || 'No description available'}</div>
+                    <div class="repo-meta">
+                        ${repo.language ? `<div class="repo-meta-item">💻 ${repo.language}</div>` : ''}
+                        <div class="repo-meta-item">⭐ ${repo.stars}</div>
+                        <div class="repo-meta-item">🔱 ${repo.forks}</div>
+                    </div>
+                    ${repo.topics && repo.topics.length > 0 ? `
+                        <div class="repo-topics">
+                            ${repo.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function toggleGroup(groupId) {
+            const element = document.getElementById(groupId);
+            element.classList.toggle('open');
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        async function exportData(format) {
+            try {
+                const response = await fetch(`/api/export?format=${format}`);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `starred-repos.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('Failed to export data. Please try again.');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/auth/logout', { method: 'POST' });
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        }
+
+        // Load dashboard on page load
+        window.addEventListener('load', loadDashboard);
+    </script>
+</body>
+</html>
