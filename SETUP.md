@@ -191,6 +191,60 @@ vibe/
 - The session secret should be a strong random string in production
 - Use HTTPS in production environments
 
+## Deploying to Render
+
+The app is hosted on [Render](https://render.com) (e.g. `https://vibe-pasm.onrender.com`). Render auto-deploys from the `main` branch.
+
+### 1. Create the Web Service (first time only)
+
+1. Go to the [Render Dashboard](https://dashboard.render.com) → **New** → **Web Service**
+2. Connect this GitHub repository
+3. Configure the service:
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Branch**: `main`
+4. Click **Create Web Service**. Render assigns a URL like `https://<your-app>.onrender.com`.
+
+### 2. Create a GitHub OAuth App for Production
+
+> **Note:** GitHub has **no API/CLI to create OAuth Apps** — you must use the web UI.
+
+1. Go to [GitHub Developer Settings → OAuth Apps → New OAuth App](https://github.com/settings/applications/new)
+2. Fill in the details (replace the URL with your Render URL):
+   - **Application name**: `Vibe`
+   - **Homepage URL**: `https://vibe-pasm.onrender.com`
+   - **Authorization callback URL**: `https://vibe-pasm.onrender.com/auth/github/callback`
+3. Click **Register application**
+4. Copy the **Client ID**
+5. Click **Generate a new client secret** and copy the **Client Secret**
+
+### 3. Configure Environment Variables on Render
+
+In your Render service → **Environment**, add:
+
+| Key | Value |
+| --- | --- |
+| `GITHUB_CLIENT_ID` | your OAuth app Client ID |
+| `GITHUB_CLIENT_SECRET` | your OAuth app Client Secret |
+| `GITHUB_CALLBACK_URL` | `https://vibe-pasm.onrender.com/auth/github/callback` |
+| `SESSION_SECRET` | a long random string (e.g. `openssl rand -base64 32`) |
+| `NODE_ENV` | `production` |
+
+> `PORT` is provided automatically by Render — do not set it manually.
+
+### 4. Deploy
+
+Save the environment variables and trigger a **Manual Deploy** (or push to `main` to auto-deploy). Once live, open your Render URL and click **Sign in with GitHub**.
+
+> **OAuth App vs GitHub App:** This project uses an **OAuth App** (`client_id` + `client_secret` web flow), which is different from a **GitHub App**. Use the OAuth App steps above.
+
+### Local + Production Together
+
+To keep developing locally while production is live, either:
+- Create a **second OAuth App** with `http://localhost:3000/...` URLs, or
+- Add `http://localhost:3000/auth/github/callback` as an additional callback URL on the same OAuth App.
+
 ## Production Deployment
 
 For production deployment:
