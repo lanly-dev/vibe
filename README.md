@@ -126,17 +126,6 @@ See `examples/usage.js` for more detailed examples:
 node examples/usage.js
 ```
 
-### Interactive Playground 🎮
-
-Want to try the utility functions? Visit the playground at `/playground.html`:
-
-- ✨ Text Capitalizer
-- 🎲 Lucky Number Generator with statistics
-- 🔄 Palindrome Detective
-- 😂 Random Programming Joke Generator
-- 🌧️ Emoji Rain animation
-- 📊 Text Analyzer with word count, character frequency, and more!
-
 ## Testing
 
 Run the test suite:
@@ -172,7 +161,6 @@ vibe/
 │       └── auth.js           # Authentication middleware
 ├── public/
 │   ├── dashboard.html        # Main dashboard UI
-│   └── playground.html       # Utility playground
 ├── tests/
 │   └── utils.test.js         # Test suite
 ├── examples/

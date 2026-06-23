@@ -109,9 +109,6 @@ You can export your starred repositories data in two formats:
 
 Click the **Export JSON** or **Export CSV** buttons in the navbar to download your data.
 
-### Playground
-
-Access the original utility function playground at `http://localhost:3000/playground.html` to try out the various utility functions.
 
 ## Running Tests
 
